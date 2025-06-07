@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Website</title>
+    <style>
+        /* Reset default margins and paddings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styling */
+        body {
+            font-family: Arial, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* Section styling */
+        section {
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Home Section with Video Background */
+        #home {
+            position: relative;
+            overflow: hidden;
+        }
+
+        #backgroundVideo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            background-size: cover;
+        }
+
+        /* Overlay Text on Video */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            flex-direction: column;
+        }
+
+        .overlay h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .overlay a {
+            padding: 10px 20px;
+            background: #ff6347;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+        }
+
+        /* Menu Categories Section */
+        #menu-categories {
+            background-image: url('C:/L-BRO/BG-RESTAUTRANT.jpg'); /* Replace with your unique restaurant theme image */
+            background-size: cover;
+            background-position: center;
+            padding: 50px 0;
+        }
+
+        .menu-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .menu-item {
+            background: rgba(255, 255, 255, 0.8);
+            width: 30%;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .menu-item:hover {
+            transform: scale(1.05);
+            background: #ff6347;
+            color: #fff;
+        }
+
+        /* Menu Items Display Section */
+        #menu-items {
+            padding: 50px 20px;
+            background: #f8f8f8;
+            display: none; /* Hidden by default */
+        }
+
+        .items-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .item-card {
+            background: #fff;
+            width: 250px;
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .item-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.2);
+        }
+
+        .item-card img {
+            width: 100%;
+            height: 60%;
+            object-fit: cover;
+        }
+
+        .item-info {
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-name {
+            background: #ff6347;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .item-name:hover {
+            background: #e5533d;
+        }
+
+        .item-price {
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Cart Section */
+        #cart {
+            padding: 50px 20px;
+            background: #333;
+            color: #fff;
+            display: none; /* Hidden by default */
+        }
+
+        #cart h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .cart-items {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #555;
+        }
+
+        .total {
+            text-align: right;
+            margin-top: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .menu-item, .item-card {
+                width: 80%;
+            }
+        }
+/*
+        #viewCartBtn {
+  background-color: #ff6347;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+#viewCartBtn:hover {
+  background-color: #e5533d;
+}
+*/
+    </style>
+</head>
+<body>
+
+    <!-- Home Section with Video Background -->
+    <section id="home">
+        <video autoplay muted loop id="backgroundVideo">
+            <source src="C:\Users\likhi\Downloads\Food - Made with Clipchamp.mp4" type="video/mp4"> <!-- Replace with your video URL 
+            Your browser does not support HTML5 video.-->
+        </video>
+        <div class="overlay">
+            <h1>Welcome to Our Restaurant</h1>
+            <a href="#menu-categories">Explore Menu</a>
+        </div>
+    </section>
+
+    <!-- Menu Categories Section -->
+    <section id="menu-categories">
+        <div class="menu-container">
+            <div class="menu-item" data-category="starters">Starters</div>
+            <div class="menu-item" data-category="main-course">Main Course</div>
+            <div class="menu-item" data-category="desserts">Desserts</div>
+            <div class="menu-item" data-category="drinks">Beverages</div>
+            <div class="menu-item" data-category="snacks">Snacks</div>
+            <div class="menu-item" data-category="korean">Korean</div>
+        </div>
+    <!--    <button id="viewCartBtn" onclick="document.getElementById('cart').scrollIntoView({ behavior: 'smooth' });">View Cart</button>-->
+    </section>
+
+    <!-- Menu Items Display Section -->
+    <section id="menu-items">
+        <div class="items-container" id="itemsContainer">
+            <!-- Dynamic Content Loaded Here -->
+
+        </div>
+    </section>
+
+    <!-- Cart Section -->
+    <section id="cart">
+        <h2>Your Cart</h2>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart Items Loaded Here -->
+        </div>
+        <div class="total" id="totalPrice">Total: ₹0</div>
+    </section>
+
+    <script>
+        // JavaScript Code
+
+        // Menu Data
+        const menuData = {
+            'starters': [
+                { name: 'Lemon Coriander Soup', price: 150, image: 'C:/L-BRO/lemon-coriander.jpeg ' },
+                { name: 'Chicken Soup', price: 180, image: 'C:/L-BRO/chicken soup.jpeg' },
+                { name: 'Vegetable Soup', price: 160, image: 'C:/L-BRO/veg soup.jpeg' },
+                { name: 'Tomato Soup', price: 140, image: 'C:/L-BRO/tomato.jpg' },
+                { name: 'BBQ Chicken Salad', price: 300, image: 'C:/L-BRO/BBQ.jpeg' },
+                { name: 'Shrimp and Avocado Salad', price: 350, image: 'C:/L-BRO/shrimp&avacado.jpeg' },
+                { name: 'Garden Salad', price: 250, image: 'C:/L-BRO/garden.jpeg' },
+                { name: 'Apple Broccoli Salad', price: 270, image: 'C:/L-BRO/Broccoli&Apple.jpg' },
+                { name: 'Chocolate Lava Cake', price: 200, image: 'C:/L-BRO/lava.jpeg' },
+                { name: 'Fruit Salad Ice Cream', price: 120, image: 'C:/L-BRO/fruitsaladicecream.jpeg' },
+                { name: 'Apricot Delight', price: 150, image: 'C:/L-BRO/apricotdelight.jpeg' },
+                { name: 'Cheesecake', price: 220, image: 'C:/L-BRO/cheesecake.jpg' },
+                { name: 'Mojito', price: 180, image: 'C:/L-BRO/mojito.jpeg' },
+                { name: 'Margarita', price: 200, image: 'C:/L-BRO/margarita.jpeg' },
+                { name: 'Lemonade', price: 100, image: 'C:/L-BRO/lemonade.jpeg' },
+                { name: 'Iced Tea', price: 90, image: 'C:/L-BRO/icedTea.jpeg' },
+                { name: 'Crispy Corn', price: 130, image: 'C:/L-BRO/crispyCorn.jpg' },
+                { name: 'French Fries', price: 150, image: 'C:/L-BRO/French Fries.jpeg' },
+                { name: 'Mushroom 65', price: 160, image: 'C:/L-BRO/Mushroom 65.jpg' },
+                { name: 'Veg Spring Rolls', price: 140, image: 'C:/L-BRO/Veg Spring Rolls.jpeg' },
+                { name: 'Chicken Majestic', price: 300, image: 'C:/L-BRO/chicken-majestic.jpg' },
+                { name: 'Apollo Fish', price: 250, image: 'C:/L-BRO/Apollo-Fish.webp' },
+                { name: 'Loose Prawns', price: 350, image: 'C:/L-BRO/looseprawn.jpg' },
+                { name: 'Chilly Prawns', price: 280, image: 'C:/L-BRO/chilllyprawn.webp' }
+            ],
+            'main-course': [
+                { name: 'Murgh Dum Handi Biryani', price: 300, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/Murgh handi dum biryani.jpeg' },
+                { name: 'Paneer Makhanwala', price: 350, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/Paneer Makhanwala.jpg' },
+                { name: 'Jeera Rice', price: 250, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/Jeera-Rice.png' },
+                { name: 'Seared Scallops With Brown Butter and Lemon Pan Sauce', price: 270, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/Broccoli&Apple.jpg' }
+            ],
+            'desserts': [
+                { name: 'Gulab jamun', price: 200, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/lava.jpeg' },
+                { name: 'Rasmalai', price: 120, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/fruitsaladicecream.jpeg' },
+                { name: 'Rasagula', price: 150, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/apricotdelight.jpeg' },
+                { name: 'Kheer', price: 220, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/cheesecake.jpg' }
+            ],
+            'drinks': [
+                { name: 'Milkshake', price: 180, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/mojito.jpeg' },
+                { name: 'Hot Chocolate', price: 200, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/margarita.jpeg' },
+                { name: 'Smoothie', price: 100, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/lemonade.jpeg' },
+                { name: 'Latte', price: 90, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/icedTea.jpeg' },
+                { name: 'Cappiccino', price: 180, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/mojito.jpeg' },
+                { name: 'Espresso', price: 200, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/margarita.jpeg' },
+                { name: 'Water', price: 100, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/lemonade.jpeg' },
+                { name: 'Black Tea', price: 90, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/icedTea.jpeg' },
+                { name: 'Orange Juice', price: 180, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/mojito.jpeg' },
+                { name: 'Green Tea', price: 200, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/margarita.jpeg' },
+                { name: 'Americano', price: 100, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/lemonade.jpeg' },
+                { name: 'Mocha', price: 90, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/icedTea.jpeg' }
+            ],
+            'snacks': [
+                { name: 'Crispy Corn', price: 130, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/crispyCorn.jpg' },
+                { name: 'French Fries', price: 150, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/French Fries.jpeg' },
+                { name: 'Mushroom 65', price: 160, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/Mushroom 65.jpg' },
+                { name: 'Veg Spring Rolls', price: 140, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/Veg Spring Rolls.jpeg' }
+            ],
+            'korean': [
+                { name: 'Bibimbap', price: 300, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/bibimbap.jpg' },
+                { name: 'Kimchi Stew', price: 250, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/kimchi.jpeg' },
+                { name: 'Korean Fried Chicken', price: 350, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/koreanfriedchicken.png' },
+                { name: 'Spicy Ramyeon', price: 280, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/ramyeon.jpeg' },
+                { name: 'Tteokbokki', price: 300, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/Tteokbokki.jpg' },
+                { name: 'Soy Sauce Crab', price: 250, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/Soy sauce crab.jpg' },
+                { name: 'Jjajangmyeon', price: 350, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/Jjajangmyeon.jpeg' },
+                { name: 'Sundae', price: 280, image: 'C:/Users/likhi/OneDrive/Desktop/L-BRO/Sundae.jpeg' }
+        ]
+        };
+
+        // Cart Array
+        let cart = [];
+
+        // Selecting DOM Elements
+        const menuItems = document.querySelectorAll('.menu-item');
+        const itemsContainer = document.getElementById('itemsContainer');
+        const cartSection = document.getElementById('cart');
+        const cartItemsDiv = document.getElementById('cartItems');
+        const totalPriceDiv = document.getElementById('totalPrice');
+
+        // Function to Display Menu Items
+        function displayMenuItems(category) {
+            // Clear previous items
+            itemsContainer.innerHTML = '';
+
+            // Get items from menuData
+            const items = menuData[category];
+
+            // Iterate and create item cards
+            items.forEach(item => {
+                // Create card div
+                const card = document.createElement('div');
+                card.classList.add('item-card');
+
+                // Create image element
+                const img = document.createElement('img');
+                img.src = item.image;
+                img.alt = item.name;
+
+                // Create info div
+                const infoDiv = document.createElement('div');
+                infoDiv.classList.add('item-info');
+
+                // Create name div
+                const nameDiv = document.createElement('div');
+                nameDiv.classList.add('item-name');
+                nameDiv.textContent = item.name;
+                nameDiv.style.width = '70%';
+                nameDiv.style.textAlign = 'left';
+
+                // Create price div
+                const priceDiv = document.createElement('div');
+                priceDiv.classList.add('item-price');
+                priceDiv.textContent = '₹' + item.price;
+
+                // Append name and price to infoDiv
+                infoDiv.appendChild(nameDiv);
+                infoDiv.appendChild(priceDiv);
+
+                // Append image and info to card
+                card.appendChild(img);
+                card.appendChild(infoDiv);
+
+                // Add event listener to nameDiv for adding to cart
+                nameDiv.addEventListener('click', () => addToCart(item));
+
+                // Append card to itemsContainer
+                itemsContainer.appendChild(card);
+            });
+
+            // Show menu items section
+            document.getElementById('menu-items').style.display = 'block';
+        }
+      
+
+        // Function to Add Item to Cart
+        function addToCart(item) {
+             cart.push(item);
+        //     alert(`${item.name} has been added to your cart.`);
+             displayCart();
+         }
+             
+/*
+        //Function to Remove Item from Cart
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            displayCart();
+        }
+*/
+
+        // Function to Display Cart
+        function displayCart() {
+            // Clear previous cart items
+            cartItemsDiv.innerHTML = '';
+
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                // Create cart item div
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+
+                // Item name
+                const name = document.createElement('div');
+                name.textContent = item.name;
+
+                // Item price
+                const price = document.createElement('div');
+                price.textContent = '₹' + item.price;
+/*
+                //Remove button
+                const price = document.createElement('button');
+                removeBtn.textContent = 'Remove';
+                removeBtn.onclick = () => removeFromCart(index);
+ */
+
+                // Append to cartItem
+                cartItem.appendChild(name);
+                cartItem.appendChild(price);
+                /*cartItem.appendChild(removeBtn);*/
+
+                // Append to cartItemsDiv
+                cartItemsDiv.appendChild(cartItem);
+
+                // Add to total
+                total += item.price;
+            });
+
+            // Update total price
+            totalPriceDiv.textContent = `Total: ₹${total}`;
+
+            // Show cart section
+            cartSection.style.display = 'block';
+        }
+
+/*
+        // Function to Add Item to Cart
+        function addToCart(item) {
+            const existingItem = cart.find(i => i.name === item.name);
+            if (existingItem) {
+                existingItem.quantity = (existingItem.quantity || 1) + 1;
+            } else {
+                item.quantity = 1;
+                cart.push(item);
+            }
+            displayCart();
+        }
+            // Function to Display Cart
+            function displayCart() {
+            // Clear previous cart items
+                cartItemsDiv.innerHTML = '';
+                let total = 0;
+                cart.forEach((item, index) => {
+                // Create cart item div
+                    const cartItem = document.createElement('div');
+                    cartItem.classList.add('cart-item');
+    
+                // Item name
+                const name = document.createElement('div');
+                name.textContent = item.name;
+    
+                // Item quantity
+                const quantity = document.createElement('div');
+                quantity.textContent = `Quantity: ${item.quantity}`;
+    
+                // Item price
+                const price = document.createElement('div');
+                price.textContent = '₹' + item.price * item.quantity;
+    
+    // Remove button
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = 'Remove';
+    removeBtn.onclick = () => removeFromCart(index);
+    
+    // Append to cartItem
+    cartItem.appendChild(name);
+    cartItem.appendChild(quantity);
+    cartItem.appendChild(price);
+    cartItem.appendChild(removeBtn);
+    
+    // Append to cartItemsDiv
+    cartItemsDiv.appendChild(cartItem);
+    
+    // Add to total
+    total += item.price * item.quantity;
+  });
+  
+  // Update total price
+  totalPriceDiv.textContent = `Total: ₹${total}`;
+  
+  // Show cart section
+  cartSection.style.display = 'block';
+}
+
+*/
+
+
+        // Event Listeners for Menu Categories
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const category = item.getAttribute('data-category');
+                displayMenuItems(category);
+                // Scroll to menu items
+                document.getElementById('menu-items').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Optional: Hide video when scrolling past home section
+        // window.addEventListener('scroll', () => {
+        //     const homeSection = document.getElementById('home');
+        //     const scrollPos = window.scrollY;
+        //     if (scrollPos > homeSection.offsetHeight - 100) { // Adjust as needed
+        //         homeSection.style.display = 'none';
+        //     } else {
+        //         homeSection.style.display = 'block';
+        //     }
+        // });
+        
+
+    </script>
+</body>
+</html>
